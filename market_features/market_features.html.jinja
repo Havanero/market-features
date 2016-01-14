@@ -80,6 +80,7 @@
 
           span.failed {
             color: #ff0000
+
           }
 
           span.error {
@@ -183,25 +184,30 @@
           #content ul li.level.suite > span {
             margin-bottom: .8em;
             {#padding: 0 0 0 .8em;#}
-            padding: 0 0 0 .8em;
+            padding: 0 0 0 5.8em;
             display: block;
             font-size: 110%;
             line-height: 1em;
             color: #151515;
             border-left: solid 14px #93e078;
+            position: relative;
+
           }
 
           #content ul li.level.suite.failed > span {
-            border-left: solid 15px #f02525;
+            border-left: solid 15px white
+
           }
 
           #content ul li.level.suite.ignored > span {
-            border-left: solid 15px #f8d216;
+            border-left: solid 15px white;
+
           }
 
           #content ul li.level.suite.skipped > span {
-                      border-left: solid 15px #808080;
-                    }
+            border-left: solid 15px white;
+
+          }
 
            #bars span {
              position: absolute;
@@ -212,7 +218,7 @@
 
            .firstOverlayLine {
              left: 0.5em;
-              background: red;
+             background: red;
 
            }
 
@@ -227,31 +233,50 @@
                      }
 
            .thirdOverlayLine {
-              left: 7.7%;
+              left: 3.5em;
               background: #f8d216;
            }
 
           #content ul li.level.suite.mixed_fail_skip_error > span {
-                padding: 0 0 0 3.8em;
-                border-left: solid 15px #f8d216;
+                padding: 0 0 0 5.8em;
+                border-left: solid 15px white;
                 position:relative;
 
           }
+
+          #content ul li.level.suite.mixed_pass_fail_skip_error > span {
+                          padding: 0 0 0 5.8em;
+                          {# border-left: solid 15px #f8d216; #}
+                          border-left: solid 15px #93e078;
+                          position:relative;
+
+                    }
           #content ul li.level.suite.mixed_fail_error > span {
-                padding: 0 0 0 2.0em;
-                border-left: solid 15px #f8d216;
+               {# padding: 0 0 0 2.0em;#}
+                padding: 0 0 0 5.8em;
+                border-left: solid 15px white;
                 position:relative;
           }
 
           #content ul li.level.suite.mixed_skip_fail > span {
-                      padding: 0 0 0 2.0em;
-                      border-left: solid 15px gray;
+                      {# padding: 0 0 0 2.0em;#}
+                      padding: 0 0 0 5.8em;
+                      border-left: solid 15px white;
                       position:relative;
+
           }
 
+          #content ul li.level.suite.mixed_pass_fail_skip > span {
+                                {# padding: 0 0 0 2.0em;#}
+                                padding: 0 0 0 5.8em;
+                                border-left: solid 15px white;
+                                position:relative;
+                    }
+
           #content ul li.level.suite.mixed_skipped_error > span {
-                        padding: 0 0 0 2.0em;
-                        border-left: solid 15px #f8d216;
+                        {# padding: 0 0 0 2.0em;#}
+                        padding: 0 0 0 5.8em;
+                        border-left: solid 15px white;
                         position:relative;
           }
           #content ul li.level.suite > ul {
@@ -693,21 +718,34 @@ jQuery.cookie = function(name, value, options) {
         		      <li class="level suite ignored closed" title="click to expand">
             			 <span><em class="time">
                           <div class="time">{{result.feature_time}} s</div>
-                        </em>{{result.name}}
+                        </em>
+                        <div id="bars">
+                            <span class="thirdOverlayLine"></span>
+                        </div>
+                        {{result.name}}
                         </span>
            {% elif result.status == "failed" %}
            			            <li class="level suite failed closed" title="click to expand">
            			 <span><em class="time">
                          <div class="time">{{result.feature_time}} s</div>
-                       </em>{{result.name}}
+                       </em>
+                        <div id="bars">
+                           <span class="firstOverlayLine"></span>
+                        </div>
+                       {{result.name}}
                        </span>
 
            {% elif result.status == "skipped" %}
                  <li class="level suite skipped closed" title="click to expand">
                     <span><em class="time">
                      <div class="time">{{result.feature_time}} s</div>
-                    </em>{{result.name}}
+                    </em>
+                    <div id="bars">
+                        <span class="secondOverlayLine"></span>
+                     </div>
+                    {{result.name}}
                 </span>
+
            {% elif result.status == "failed and skipped" %}
                   <li class="level suite mixed_skip_fail closed" title="click to expand">
                     <span><em class="time">
@@ -715,7 +753,7 @@ jQuery.cookie = function(name, value, options) {
                         </em>
                          <div id="bars">
                             <span class="firstOverlayLine"></span>
-
+                            <span class="secondOverlayLine"></span>
                          </div>
                         {{result.name}}
                     </span>
@@ -727,6 +765,7 @@ jQuery.cookie = function(name, value, options) {
                                 </em>
                                  <div id="bars">
                                  <span class="firstOverlayLine"></span>
+                                 <span class="thirdOverlayLine"></span>
                                  </div>
                                 {{result.name}}
                         </span>
@@ -736,7 +775,8 @@ jQuery.cookie = function(name, value, options) {
                             <div class="time">{{result.feature_time}} s</div>
                             </em>
                             <div id="bars">
-                              <span class="skipOverlayLine" ></span>
+                              <span class="secondOverlayLine" ></span>
+                              <span class="thirdOverlayLine"></span>
                               </div>
                              {{result.name}}
                            </span>
@@ -749,9 +789,23 @@ jQuery.cookie = function(name, value, options) {
                              <div id="bars">
                               <span class="firstOverlayLine"></span>
                               <span class="secondOverlayLine"></span>
+                              <span class="thirdOverlayLine"></span>
                               </div>
                             {{result.name}}
                         </span>
+
+            {% elif result.status == "passed, failed, skipped and error" %}
+                               <li class="level suite mixed_pass_fail_skip_error closed" title="click to expand">
+                                   <span><em class="time">
+                                       <div class="time">{{result.feature_time}} s</div>
+                                       </em>
+                                        <div id="bars">
+                                         <span class="firstOverlayLine"></span>
+                                         <span class="secondOverlayLine"></span>
+                                         <span class="thirdOverlayLine"></span>
+                                         </div>
+                                       {{result.name}}
+                                   </span>
             {% else %}
             	     <li class="level suite close" title="click to expand">
                         <span><em class="time">
